@@ -10,6 +10,8 @@ const FeaturedRecipes = () => {
     const [error, setError] = useState(null);
     const [isHovered, setIsHovered] = useState(false);
     const carouselRef = useRef(null);
+    const festivalsScrollRef = useRef(null);
+    const [isFestivalsHovered, setIsFestivalsHovered] = useState(false);
     const intervalRef = useRef(null);
 
     // API Configuration
@@ -477,19 +479,19 @@ const FeaturedRecipes = () => {
     // Navigation functions
     const nextSlide = useCallback(() => {
         if (!isTransitioning || content.length <= cardsToShow) return;
-        
+        const slidesCount = Math.max(1, content.length - cardsToShow + 1);
         setCurrentIndex(prev => {
             const nextIndex = prev + 1;
-            return nextIndex >= content.length ? 0 : nextIndex;
+            return nextIndex >= slidesCount ? 0 : nextIndex;
         });
     }, [isTransitioning, content.length, cardsToShow]);
 
     const prevSlide = useCallback(() => {
         if (!isTransitioning || content.length <= cardsToShow) return;
-        
+        const slidesCount = Math.max(1, content.length - cardsToShow + 1);
         setCurrentIndex(prev => {
             const prevIndex = prev - 1;
-            return prevIndex < 0 ? content.length - 1 : prevIndex;
+            return prevIndex < 0 ? slidesCount - 1 : prevIndex;
         });
     }, [isTransitioning, content.length, cardsToShow]);
 
@@ -606,24 +608,95 @@ const FeaturedRecipes = () => {
                     )} */}
                     
                     {festivalsData.length > 1 && (
-                        <div className="flex justify-center mt-6 gap-2 flex-wrap">
-                            {festivalsData.map((festival) => (
-                                <button
-                                    key={festival.id}
-                                    onClick={() => {
-                                        setCurrentFestival(festival.id);
-                                        setCurrentIndex(0);
-                                    }}
-                                    className={`px-4 py-2 capitalize rounded-full text-sm font-medium transition-all duration-200 ${
-                                        currentFestival === festival.id
-                                            ? 'bg-red-500 text-white shadow-lg'
-                                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-                                    }`}
-                                >
-                                    {festival.name}
-                                </button>
-                            ))}
+                      <>
+                        {/* Desktop / Tablet: original buttons (no change) */}
+                        <div className="hidden sm:flex justify-center mt-6 gap-2 flex-wrap">
+                          {festivalsData.map((festival, index) => (
+                            <button
+                              key={festival.id}
+                              onClick={() => {
+                                setCurrentFestival(festival.id);
+                                setCurrentIndex(index);
+                              }}
+                              className={`px-4 py-2 capitalize rounded-full text-sm font-medium transition-all duration-200 text-center whitespace-normal max-w-[160px] leading-tight ${
+                                currentFestival === festival.id
+                                  ? 'bg-red-500 text-white shadow-lg'
+                                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                              }`}
+                            >
+                              {festival.name}
+                            </button>
+                          ))}
                         </div>
+ 
+                        {/* Mobile: horizontally scrollable pill buttons (show ~2 per viewport, rest scroll) */}
+                        <div className="sm:hidden mt-6 relative">
+                          <div
+                            ref={festivalsScrollRef}
+                            id="featured-festivals-scroll"
+                            className="overflow-x-auto no-scrollbar px-4"
+                            onMouseEnter={() => setIsFestivalsHovered(true)}
+                            onMouseLeave={() => setIsFestivalsHovered(false)}
+                            onTouchStart={() => setIsFestivalsHovered(true)}
+                            onTouchEnd={() => setIsFestivalsHovered(false)}
+                          >
+                            <div className="flex gap-3 items-center">
+                              {festivalsData.map((festival) => (
+                                <button
+                                  key={festival.id}
+                                  onClick={() => {
+                                    setCurrentFestival(festival.id);
+                                    setCurrentIndex(0);
+                                  }}
+                                  className={`flex-none w-1/2 px-3 py-2 capitalize rounded-lg text-sm font-medium transition-all duration-200 text-center whitespace-normal leading-tight break-words ${
+                                    currentFestival === festival.id
+                                      ? 'bg-red-500 text-white shadow-lg'
+                                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                                  }`}
+                                >
+                                  {festival.name}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Prev / Next that target the ref container */}
+                          <div className="absolute left-2 top-1/2 -translate-y-1/2">
+                            <button
+                              onClick={() => {
+                                const container = festivalsScrollRef.current;
+                                if (container) container.scrollBy({ left: -Math.max(160, container.clientWidth * 0.6), behavior: 'smooth' });
+                              }}
+                              aria-label="Scroll left"
+                              className="bg-white/90 shadow-md rounded-full p-1"
+                            >
+                              <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                              </svg>
+                            </button>
+                          </div>
+
+                          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                            <button
+                              onClick={() => {
+                                const container = festivalsScrollRef.current;
+                                if (container) container.scrollBy({ left: Math.max(160, container.clientWidth * 0.6), behavior: 'smooth' });
+                              }}
+                              aria-label="Scroll right"
+                              className="bg-white/90 shadow-md rounded-full p-1"
+                            >
+                              <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </button>
+                          </div>
+
+                          <style>{`
+                            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                            .no-scrollbar::-webkit-scrollbar { display: none; }
+                          `}</style>
+                        </div>
+                      </>
                     )}
 
 <h2 className="text-3xl md:text-4xl text-gray-800 mb-4 mt-6 capitalize">
