@@ -3,7 +3,6 @@ import {
     Camera,
     X,
     Search,
-    ArrowLeft,
     ChefHat,
     Clock,
     Users,
@@ -541,7 +540,7 @@ const IFNRecipeApp = () => {
                             Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer" className="text-orange-700 hover:text-green-700">India Food Network</a>
                         </div>
 
-                        <div className="mt-4">
+                        <div className="mt-4 newsletter-embed-container mx-auto" style={{ maxWidth: '600px' }}>
                             <iframe
                                 title="IFN Newsletter"
                                 src="https://embeds.beehiiv.com/7d3622b1-f453-40b2-b54c-0321a680eb3b?slim=true"

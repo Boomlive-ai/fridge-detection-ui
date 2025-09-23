@@ -15,8 +15,6 @@ export async function fetchRecipe(ingredientName) {
   }
 }
 
-
-
 const fetchRecipes = async (ingredientsList) => {
   console.log("🧪 Fetching recipes for:", ingredientsList);
   setLoading(true);
