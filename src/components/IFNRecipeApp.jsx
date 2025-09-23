@@ -540,6 +540,19 @@ const IFNRecipeApp = () => {
                         <div className="text-sm text-gray-500 font-medium">
                             Powered by <a href="https://www.indiafoodnetwork.in/" target="_blank" rel="noopener noreferrer" className="text-orange-700 hover:text-green-700">India Food Network</a>
                         </div>
+
+                        <div className="mt-4">
+                            <iframe
+                                title="IFN Newsletter"
+                                src="https://embeds.beehiiv.com/7d3622b1-f453-40b2-b54c-0321a680eb3b?slim=true"
+                                data-test-id="beehiiv-embed"
+                                height="52"
+                                frameBorder="0"
+                                scrolling="no"
+                                style={{ margin: 0, borderRadius: '0px', backgroundColor: 'transparent' }}
+                                className="w-full"
+                            />
+                        </div>
                     </div>
 
                     {/* Mode Selection Cards */}

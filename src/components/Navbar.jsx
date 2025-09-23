@@ -1,7 +1,7 @@
 import React from 'react';
 import '../Css/Navbar.css';
 import logo from '../assets/ifn-logo-vase.png';
-import { ExternalLink } from 'lucide-react'; // Add this import
+import { ExternalLink, Mail } from 'lucide-react';
 
 export default function Navbar() {
   return (
@@ -11,17 +11,31 @@ export default function Navbar() {
           <a href="https://recipefinder.indiafoodnetwork.in/"><img src={logo} alt="India Food Network" className="h-[75px] w-auto" /></a>
         </div>
         
-        <a 
-          href="https://www.indiafoodnetwork.in/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg"
-        >
-          <span className="hidden sm:inline">Visit IFN Website</span>
-          <span className="sm:hidden">IFN</span>
-          <ExternalLink className="w-4 h-4" />
-        </a>
-      </nav>
-    </header>
+        {/* Right side links */}
+        <div className="flex items-center gap-3">
+          {/* Newsletter: icon only, appears before Visit IFN Website */}
+          <a
+            href="https://ifncooks.indiafoodnetwork.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Newsletter"
+            className="p-2 rounded-full bg-green-600 hover:bg-green-700 text-white shadow-sm flex items-center justify-center transition-colors duration-200"
+          >
+            <Mail className="w-5 h-5" />
+          </a>
+
+          <a 
+            href="https://www.indiafoodnetwork.in/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 bg-red-50 hover:bg-red-100 px-4 py-2 rounded-lg"
+          >
+            <span className="hidden sm:inline">Visit IFN Website</span>
+            <span className="sm:hidden">IFN</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+     </nav>
+   </header>
   );
 }
