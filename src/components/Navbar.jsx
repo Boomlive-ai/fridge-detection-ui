@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Css/Navbar.css';
-import logo from '../assets/ifn-logo-vase.png';
+import logo from '../assets/IFN_BRANDMARK-01.png';
 import { ExternalLink, Mail } from 'lucide-react';
 
 export default function Navbar() {
